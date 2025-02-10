@@ -9,10 +9,9 @@ const DocumentsPageId = async ({ params }: DocumentsPageIdProps) => {
 	const { documentId } = await params;
 
 	return (
-		<>
-			<div>DocumentsPageId: {documentId}</div>
+		<div className="min-h-screen bg-[#FAFBFD]">
 			<Editor />
-		</>
+		</div>
 	);
 };
 
