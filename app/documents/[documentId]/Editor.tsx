@@ -12,6 +12,8 @@ import TableRow from "@tiptap/extension-table-row";
 import Image from '@tiptap/extension-image'
 import ImageResize from 'tiptap-extension-resize-image';
 import Underline from '@tiptap/extension-underline'
+import FontFamily from '@tiptap/extension-font-family'
+import TextStyle from '@tiptap/extension-text-style'
 import { useEditorStore } from "@/app/store/use-editor-store";
 const Editor = () => {
 	const { setEditor } = useEditorStore();
@@ -50,6 +52,8 @@ const Editor = () => {
 		extensions: [
 			StarterKit,
 			Underline,
+			FontFamily,
+			TextStyle,
 			TaskItem.configure({
 				nested: true,
 			}),
@@ -62,22 +66,7 @@ const Editor = () => {
 			ImageResize,
 		],
 		content: `
-        <table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <th colspan="3">Description</th>
-            </tr>
-            <tr>
-              <td>Cyndi Lauper</td>
-              <td>Singer</td>
-              <td>Songwriter</td>
-              <td>Actress</td>
-            </tr>
-          </tbody>
-        </table>
-		
-		<img src="https://placehold.co/800x400" />
+		Hey there! 👋
       `,
 	});
 
