@@ -19,6 +19,7 @@ import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import { useEditorStore } from "@/app/store/use-editor-store";
+
 const Editor = () => {
 	const { setEditor } = useEditorStore();
 	

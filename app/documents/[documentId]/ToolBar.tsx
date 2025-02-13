@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldIcon, ChevronDownIcon, HighlighterIcon, ImageIcon, ItalicIcon, Link2Icon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SearchIcon, SpellCheckIcon, UnderlineIcon, Undo2Icon, UploadIcon } from 'lucide-react'
+import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldIcon, ChevronDownIcon, HighlighterIcon, ImageIcon, ItalicIcon, Link2Icon, ListIcon, ListOrderedIcon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SearchIcon, SpellCheckIcon, UnderlineIcon, Undo2Icon, UploadIcon } from 'lucide-react'
 import React, {useState} from 'react'
 import { useEditorStore } from "@/app/store/use-editor-store";
 import { Separator } from '@/components/ui/separator';
@@ -11,6 +11,51 @@ import { DropdownMenu, DropdownMenuContent,DropdownMenuItem, DropdownMenuTrigger
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle} from '@/components/ui/dialog';
+
+const  ListButton = () => {
+  const { editor } = useEditorStore();
+
+  const lists = [
+    {
+      label: "Bullet List",
+      icon: ListIcon,
+      isActive: () => editor?.isActive("bulletList"),
+      onClick: () => editor?.chain().focus().toggleBulletList().run(),
+    },
+    {
+      label: "Ordered List",
+      icon: ListOrderedIcon,
+      isActive: () => editor?.isActive("orderedList"),
+      onClick: () => editor?.chain().focus().toggleOrderedList().run(),
+    },
+  ];
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className={"h-7 min-w-7 shrink-0 flex flex-col items-center justify-between rounded-sm hover:bg-neutral-200/80 py-0.5 px-1.5 overflow-hidden text-sm"}>
+          <ListIcon className='size-4 h-[20px]' />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className='p-1 flex flex-col gap-y-1'>
+        {lists.map(({label, icon: Icon, onClick, isActive}) => (
+          <DropdownMenuItem 
+            key={label}
+            onClick={onClick}
+            className={cn(
+              "flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80 hover:cursor-pointer",
+              isActive() && "bg-neutral-200/80"
+              )}
+          >
+            <Icon className='size-4' />
+            <span className='text-sm'>{label}</span>
+          </DropdownMenuItem>
+        ))}
+        
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 
 const  AlignButton = () => {
@@ -468,7 +513,7 @@ const ToolBar = () => {
       <ImageButton />
       <AlignButton />
       {/* TODO: Line height */}
-      {/* TODO: List */}
+      <ListButton />
       {
         sections[2].map((item) => (
           <ToolBarButton key={item.label} {...item} />
