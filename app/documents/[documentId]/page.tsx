@@ -1,6 +1,6 @@
 import React from "react";
-import Editor from "./Editorr";
-import ToolBar from "./ToolBarr";
+import Editor from "./editor";
+import ToolBar from "./toolbar";
 
 interface DocumentsPageIdProps {
 	params: Promise<{ documentId: string }>;
