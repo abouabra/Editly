@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 
 const markers = Array.from({ length: 83 }, (_, i) => i);
@@ -33,7 +33,7 @@ const Ruler = () => {
         if (isDraggingLeft) {
           const maxLeftPosition = PAGE_WIDTH - rightMargin - MINIMUM_SPACE;
           const newLeftPosition = Math.min(rawPosition, maxLeftPosition);
-          setLeftMargin(newLeftPosition);
+          setLeftMargin(newLeftPosition); // TODO: Make Collaborative
         } else if (isDraggingRight) {
           const maxRightPosition = PAGE_WIDTH - (leftMargin + MINIMUM_SPACE);
           const newRightPosition = Math.max(PAGE_WIDTH - rawPosition, 0);
@@ -129,14 +129,10 @@ const Marker = ({ position, isLeft, isDragging, onMouseDown, onDoubleClick }: Ma
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >
-      <FaCaretDown className="absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2" />
+      <FaCaretDown className="absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2 hover:fill-blue-800" />
       <div
-        className="absolute left-1/2 top-4 transform -translate-x-1/2 "
+        className="absolute left-1/2 top-4 transform -translate-x-1/2 w-[1px] bg-blue-500 h-dvh"
         style={{
-          height: "100vh",
-          width: "1px",
-          transform: "scaleX(0.5)",
-          backgroundColor: "#3b72f6",
           display: isDragging ? "block" : "none",
         }}
       />
