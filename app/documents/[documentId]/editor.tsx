@@ -18,8 +18,9 @@ import { Color } from '@tiptap/extension-color'
 import Highlight from '@tiptap/extension-highlight'
 import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
-import { useEditorStore } from "@/app/store/use-editor-store";
+import Strike from '@tiptap/extension-strike'
 
+import { useEditorStore } from "@/app/store/use-editor-store";
 import { LineHeight } from "@/app/extensions/line-height";
 import { FontSize } from "@/app/extensions/font-size";
 import Ruler from "./ruler";
@@ -64,6 +65,7 @@ const Editor = () => {
 			StarterKit,
 			FontSize,
 			Color,
+			Strike,
 			LineHeight.configure({
 				types: ['heading', 'paragraph'],
 				defaultLineHeight: 'normal',
