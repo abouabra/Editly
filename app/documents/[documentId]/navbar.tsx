@@ -7,6 +7,7 @@ import DocumentInput from "./document-input";
 import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/ui/menubar";
 import { BoldIcon, FileIcon, FileJsonIcon, FilePenIcon, FilePlusIcon, FileTextIcon, GlobeIcon, ItalicIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, StrikethroughIcon, TableIcon, TextIcon, TrashIcon, UnderlineIcon, Undo2Icon } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
+import { useEditorStore } from "@/app/store/use-editor-store";
 
 type MenuItem = {
 	label: string;
@@ -23,10 +24,15 @@ type MenuSection = {
 
 const NavBar = () => {
 	const [isMac, setIsMac] = useState(false);
+	const { editor } = useEditorStore();
 
 	useEffect(() => {
 		setIsMac(navigator.userAgent.includes("Mac"));
 	}, []);
+
+	const insertTable = ({ rows, cols }: { rows: number; cols: number }) => {
+		editor?.chain().focus().insertTable({ rows, cols, withHeaderRow: false }).run();
+	};
 
 	const menuData: MenuSection[] = [
 		{
@@ -58,8 +64,18 @@ const NavBar = () => {
 		{
 			label: "Edit",
 			items: [
-				{ label: "Undo", icon: Undo2Icon, shortcut: `${isMac ? "⌘" : "Ctrl"} Z` },
-				{ label: "Redo", icon: Redo2Icon, shortcut: `${isMac ? "⇧⌘" : "Ctrl+Shift"} Z` },
+				{
+					label: "Undo",
+					icon: Undo2Icon,
+					shortcut: `${isMac ? "⌘" : "Ctrl"} Z`,
+					action: () => editor?.chain().focus().undo().run(),
+				},
+				{
+					label: "Redo",
+					icon: Redo2Icon,
+					shortcut: `${isMac ? "⇧⌘" : "Ctrl+Shift"} Z`,
+					action: () => editor?.chain().focus().redo().run(),
+				},
 			],
 		},
 		{
@@ -68,7 +84,13 @@ const NavBar = () => {
 				{
 					label: "Table",
 					icon: TableIcon,
-					children: [{ label: "1 x 1" }, { label: "2 x 2" }, { label: "3 x 3" }, { label: "4 x 4" }, { label: "5 x 5" }],
+					children: [
+						{ label: "1 x 1", action: () => insertTable({ rows: 1, cols: 1 }) },
+						{ label: "2 x 2", action: () => insertTable({ rows: 2, cols: 2 }) },
+						{ label: "3 x 3", action: () => insertTable({ rows: 3, cols: 3 }) },
+						{ label: "4 x 4", action: () => insertTable({ rows: 4, cols: 4 }) },
+						{ label: "5 x 5", action: () => insertTable({ rows: 5, cols: 5 }) },
+					],
 				},
 			],
 		},
@@ -118,7 +140,7 @@ const NavBar = () => {
 													</MenubarSubTrigger>
 													<MenubarSubContent>
 														{item.children.map((child, j) => (
-															<MenubarItem key={j}>
+															<MenubarItem key={j} onClick={child.action}>
 																{child.icon && <child.icon className="size-4 mr-2" />}
 																{child.label}
 																{child.shortcut && <MenubarShortcut>{child.shortcut}</MenubarShortcut>}
