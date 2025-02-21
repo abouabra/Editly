@@ -5,52 +5,57 @@ import { DropdownMenu, DropdownMenuContent,DropdownMenuItem, DropdownMenuTrigger
 import { cn } from "@/lib/utils";
 import { type Level } from "@tiptap/extension-heading";
 import { ChevronDownIcon } from "lucide-react";
+import { useEffect } from "react";
 
+export const headings = [
+	{
+		label: "Normal text",
+		value: 0,
+		fontSize: "1rem",
+	},
+	{
+		label: "Heading 1",
+		value: 1,
+		fontSize: "2.25rem",
+	},
+	{
+		label: "Heading 2",
+		value: 2,
+		fontSize: "1.75rem",
+	},
+	{
+		label: "Heading 3",
+		value: 3,
+		fontSize: "1.5rem",
+	},
+	{
+		label: "Heading 4",
+		value: 4,
+		fontSize: "1.25rem",
+	},
+	{
+		label: "Heading 5",
+		value: 5,
+		fontSize: "1.1rem",
+	},
+	{
+		label: "Heading 6",
+		value: 6,
+		fontSize: "1rem",
+	},
+];
 
 const HeadingDropDown = () => {
 	const { editor } = useEditorStore();
 
-	const headings = [
-		{
-			label: "Normal text",
-			value: 0,
-			fontSize: "1rem",
-		},
-		{
-			label: "Heading 1",
-			value: 1,
-			fontSize: "2.25rem",
-		},
-		{
-			label: "Heading 2",
-			value: 2,
-			fontSize: "1.75rem",
-		},
-		{
-			label: "Heading 3",
-			value: 3,
-			fontSize: "1.5rem",
-		},
-		{
-			label: "Heading 4",
-			value: 4,
-			fontSize: "1.25rem",
-		},
-		{
-			label: "Heading 5",
-			value: 5,
-			fontSize: "1.1rem",
-		},
-		{
-			label: "Heading 6",
-			value: 6,
-			fontSize: "1rem",
-		},
-	];
 
 	const getCurrentHeading = () => {
 		for (let level = 0; level < headings.length; level++) {
 			if (editor?.isActive("heading", { level })) {
+				return headings[level].label;
+			}
+			const fontSizeInPx = parseFloat(headings[level].fontSize.replace("rem", "")) * 16;
+			if(editor?.getAttributes("textStyle").fontSize === `${fontSizeInPx}px`) {
 				return headings[level].label;
 			}
 		}
@@ -73,11 +78,9 @@ const HeadingDropDown = () => {
 							if (value === 0) {
 								editor?.chain().focus().setParagraph().run();
 							} else {
-								editor
-									?.chain()
-									.focus()
-									.toggleHeading({ level: value as Level })
-									.run();
+								editor?.chain().focus().toggleHeading({ level: value as Level }).run();
+								const size = parseFloat(fontSize.replace("rem", "")) * 16;
+								editor?.chain().focus().setFontSize(`${size}px`).run();
 							}
 						}}
 						className={cn("flex items-center gap-x-2 px-2 py-3 rounded-sm hover:bg-neutral-200/80 hover:cursor-pointer", (value === 0 && !editor?.isActive("heading")) || (editor?.isActive("heading", { level: value }) && "bg-neutral-200/80"))}

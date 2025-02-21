@@ -2,12 +2,36 @@
 
 import { useEditorStore } from "@/app/store/use-editor-store";
 import { MinusIcon, PlusIcon } from "lucide-react";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { headings } from "./heading-drop-down";
+import { type Level } from "@tiptap/extension-heading";
 
 const FontSizeButton = () => {
 	const { editor } = useEditorStore();
-	const currentFontSize = editor?.getAttributes("textStyle").fontSize ? editor?.getAttributes("textStyle").fontSize.replace("px", "") : "16";
+	
+	const getCurrentFontSize = () => {
+		const textStyleFontSize = editor?.getAttributes("textStyle").fontSize;
+		if (textStyleFontSize) {
+		  return textStyleFontSize.replace("px", "");
+		}
+		
+		for (let level = 0; level < headings.length; level++) {
+			if (editor?.isActive("heading", { level })) {
+				
+				let valueInRem =  headings[level].fontSize.replace("rem", "");
+				let valueInPx = parseFloat(valueInRem) * 16;
+				return valueInPx.toString();
+			}
+		}
+
+		return "16"; // Default size
+	};
+
+	const currentFontSize = getCurrentFontSize();
+
+	useEffect(() => {
+		updateFontSize(currentFontSize);
+	}, [currentFontSize]);
 
 	const [fontSize, setFontSize] = useState<string>(currentFontSize);
 	const [inputValue, setInputValue] = useState<string>(fontSize);
@@ -17,6 +41,17 @@ const FontSizeButton = () => {
 		const size: number = parseInt(newSize);
 		if (!isNaN(size) && size > 0) {
 			editor?.chain().focus().setFontSize(`${size}px`).run();
+			const heading = headings.find((heading) => heading.fontSize === `${size > 0 ? size / 16 : 0}rem`);
+			console.log("heading", heading);
+			if (!heading) {
+				editor?.chain().focus().setParagraph().run();
+			}
+			if(heading) {
+				editor?.chain().focus().setParagraph().run();
+				editor?.chain().focus().toggleHeading({ level: heading.value as Level }).run();
+				console.log("toggleHeading");
+			}
+
 			setFontSize(newSize);
 			setInputValue(newSize);
 			setIsEditing(false);
