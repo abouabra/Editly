@@ -34,6 +34,41 @@ const NavBar = () => {
 		editor?.chain().focus().insertTable({ rows, cols, withHeaderRow: false }).run();
 	};
 
+	const onDownload = (blob: Blob, filename: string) => {
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = filename;
+		a.click();
+	};
+
+  const onSave = (type: "json" | "html" | "text") => {
+    if(!editor) return;
+    const types = {
+      json: {
+        content: JSON.stringify(editor.getJSON()),
+        type: "application/json",
+        extension: "json"
+      },
+      html: {
+        content: editor.getHTML(),
+        type: "text/html",
+        extension: "html"
+      },
+      text: {
+        content: editor.getText(),
+        type: "text/plain",
+        extension: "txt"
+      }
+    }
+
+    const blob = new Blob([types[type].content], {
+      type: types[type].type
+    });
+
+    onDownload(blob, `document.${types[type].extension}`); // TODO: use Document name
+  };
+
 	const menuData: MenuSection[] = [
 		{
 			label: "File",
@@ -42,10 +77,10 @@ const NavBar = () => {
 					label: "Save",
 					icon: FileIcon,
 					children: [
-						{ label: "JSON", icon: FileJsonIcon },
-						{ label: "HTML", icon: GlobeIcon },
-						{ label: "PDF", icon: BsFilePdf },
-						{ label: "Text", icon: FileTextIcon },
+						{ label: "JSON", icon: FileJsonIcon, action: () => onSave("json") },
+						{ label: "HTML", icon: GlobeIcon, action: () => onSave("html") },
+						{ label: "PDF", icon: BsFilePdf, action: () => window.print() },
+						{ label: "Text", icon: FileTextIcon , action: () => onSave("text") },
 					],
 				},
 				{ label: "New Document", icon: FilePlusIcon },
@@ -101,15 +136,36 @@ const NavBar = () => {
 					label: "Text",
 					icon: TextIcon,
 					children: [
-						{ label: "Bold", icon: BoldIcon, shortcut: `${isMac ? "⌘" : "Ctrl"} B` },
-						{ label: "Italic", icon: ItalicIcon, shortcut: `${isMac ? "⌘" : "Ctrl"} I` },
-						{ label: "Underline", icon: UnderlineIcon, shortcut: `${isMac ? "⌘" : "Ctrl"} U` },
-						{ label: "Strikethrough\u00A0\u00A0", icon: StrikethroughIcon, shortcut: `${isMac ? "⌘" : "Ctrl"} ⇧ S` },
+						{
+							label: "Bold",
+							icon: BoldIcon,
+							shortcut: `${isMac ? "⌘" : "Ctrl"} B`,
+							action: () => editor?.chain().focus().toggleBold().run(),
+						},
+						{
+							label: "Italic",
+							icon: ItalicIcon,
+							shortcut: `${isMac ? "⌘" : "Ctrl"} I`,
+							action: () => editor?.chain().focus().toggleItalic().run(),
+						},
+						{
+							label: "Underline",
+							icon: UnderlineIcon,
+							shortcut: `${isMac ? "⌘" : "Ctrl"} U`,
+							action: () => editor?.chain().focus().toggleUnderline().run(),
+						},
+						{
+							label: "Strikethrough\u00A0\u00A0",
+							icon: StrikethroughIcon,
+							shortcut: `${isMac ? "⌘" : "Ctrl"} ⇧ S`,
+							action: () => editor?.chain().focus().toggleStrike().run(),
+						},
 					],
 				},
 				{
 					label: "Clear Formatting",
 					icon: RemoveFormattingIcon,
+					action: () => editor?.chain().focus().unsetAllMarks().run(),
 				},
 			],
 		},
