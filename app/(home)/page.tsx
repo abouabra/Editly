@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import NavBar from "./navbar";
+import TemplatesGallery from "./templates-gallery";
 
 const Home = () => {
 	return (
@@ -10,7 +11,7 @@ const Home = () => {
 				<NavBar />
 			</div>
 			<div className="mt-16">
-				<Link href="/documents/123">Go To dummy document</Link>
+				<TemplatesGallery />
 			</div>
 		</div>
 	);
