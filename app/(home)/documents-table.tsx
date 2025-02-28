@@ -1,0 +1,63 @@
+import { Doc } from "@/convex/_generated/dataModel";
+import { PaginationStatus } from "convex/react";
+import React from "react";
+import {
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import { LoaderIcon } from "lucide-react";
+import DocumentRow from "./document-row";
+
+interface DocumentsTableProps {
+	documents: Doc<"documents">[] | undefined;
+	loadMore: (numItems: number) => void;
+	status: PaginationStatus;
+}
+
+const DocumentsTable = ({ documents, loadMore, status }: DocumentsTableProps) => {
+	return (
+        <div className="max-w-screen-xl mx-auto px-16 py-6 flex flex-col gap-5">
+            {documents === undefined && (
+                <div className="flex h-24 justify-center items-center">
+                    <LoaderIcon className="animate-spin text-muted-foreground size-5" />
+                </div>
+            )}
+            {documents !== undefined && (
+                <Table>
+                    <TableHeader>
+                        <TableRow className="hover:bg-transparent border-none"> 
+                            <TableHead>Name</TableHead>
+                            <TableHead>&nbsp;</TableHead>
+                            <TableHead className="hidden md:table-cell">Shared</TableHead>
+                            <TableHead className="hidden md:table-cell">Created At</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    { documents.length === 0 && (
+                        <TableBody>
+                            <TableRow className="hover:bg-transparent border-none"> 
+                                <TableCell colSpan={4} className="text-center h-24 text-muted-foreground">
+                                    No documents found
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    )}
+                    { documents.length > 0 && (
+                        <TableBody>
+                            {documents.map((document) => (
+                                <DocumentRow key={document._id} document={document} />
+                            ))}
+                        </TableBody>
+                    )}
+                </Table>
+            )}
+        </div>
+);
+};
+
+export default DocumentsTable;

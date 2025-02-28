@@ -1,7 +1,10 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const templates = [
 	{
@@ -36,7 +39,22 @@ const templates = [
 ];
 
 const TemplatesGallery = () => {
-	const isCreating = false;
+	const router = useRouter();
+	const create = useMutation(api.documents.createDocument);
+	const [isCreating, setIsCreating] = useState(false);
+
+	const onTemplateClick = (title: string, initialContent: string) => {
+		setIsCreating(true);
+		create({ title, initialContent })
+			.then((documentId) => {
+				router.push(`/documents/${documentId}`);
+			})
+			.finally(() => {
+				setIsCreating(false);
+			});
+	};
+
+
 
 	return (
 		<div className="bg-[#F1F3F4]">
@@ -49,7 +67,8 @@ const TemplatesGallery = () => {
 								<div className={cn("aspect-[3/4] flex flex-col gap-y-2.5", isCreating && "pointer-events-none opacity-50")}>
 									<button
 										disabled={isCreating}
-										onClick={() => {}}
+										// TODO: Proper Initial Content
+										onClick={() => onTemplateClick(template.label, "")}
 										style={{
 											backgroundImage: `url(${template.imageUrl})`,
 											backgroundSize: "cover",
@@ -57,11 +76,11 @@ const TemplatesGallery = () => {
 											backgroundRepeat: "no-repeat",
 										}}
 										className="size-full hover:border-blue-500 rounded-sm border hover:bg-blue-50 transition flex flex-col items-center justify-center gap-y-4 bg-white">
-                  </button>
-                    <p
-                    className="text-sm font-medium truncate">
-                      {template.label}
-                    </p>
+                  					</button>
+									<p
+										className="text-sm font-medium truncate">
+										{template.label}
+									</p>
 								</div>
 							</CarouselItem>
 						))}
