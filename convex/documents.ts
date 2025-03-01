@@ -14,9 +14,12 @@ export const createDocument = mutation({
 			throw new ConvexError("Unauthorized");
 		}
 
+		const organizationId = (user.organization_id ?? undefined) as string | undefined;
+
 		return await ctx.db.insert("documents", {
 			title: args.title || "Untitled Document",
 			ownerId: user.subject,
+			organizationId,
 			initialContent: args.initialContent,
 		});
 	},
@@ -31,6 +34,17 @@ export const getDocuments = query({
 			throw new ConvexError("Unauthorized");
 		}
 		
+		const organizationId = (user.organization_id ?? undefined) as string | undefined;
+
+		if (search && organizationId) {
+			return await ctx.db.query("documents")
+				.withSearchIndex(
+					"search_title", 
+					(q) => q.search("title", search).eq("organizationId", organizationId)
+				)
+				.paginate(paginationOpts);
+		}
+
 		if (search) {
 			return await ctx.db.query("documents")
 				.withSearchIndex(
@@ -39,6 +53,13 @@ export const getDocuments = query({
 				)
 				.paginate(paginationOpts);
 	
+		}
+
+		if (organizationId) {
+			return await ctx.db
+				.query("documents")
+				.withIndex("by_organization_id", (q) => q.eq("organizationId", organizationId))
+				.paginate(paginationOpts);
 		}
 
 		return await ctx.db
@@ -62,8 +83,13 @@ export const deleteDocumentByID = mutation({
 		if (!document) {
 			throw new ConvexError("Document not found");
 		}
+		const organizationId = (user.organization_id ?? undefined) as string | undefined;
 
-		if (document.ownerId !== user.subject) {
+		const isOwner = document.ownerId === user.subject;
+		const isOrganizationMember = organizationId === document.organizationId;
+
+
+		if (!isOwner && !isOrganizationMember) {
 			throw new ConvexError("Unauthorized");
 		}
 
@@ -86,9 +112,16 @@ export const updateDocumentByID = mutation({
 			throw new ConvexError("Document not found");
 		}
 
-		if (document.ownerId !== user.subject) {
+		const organizationId = (user.organization_id ?? undefined) as string | undefined;
+
+		const isOwner = document.ownerId === user.subject;
+		const isOrganizationMember = organizationId === document.organizationId;
+
+
+		if (!isOwner && !isOrganizationMember) {
 			throw new ConvexError("Unauthorized");
 		}
+
 
 		await ctx.db.patch(args.id, { title: args.title });
 	},
