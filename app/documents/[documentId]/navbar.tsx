@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import DocumentInput from "./document-input";
-
+import { Avatars } from "./avatars";
 import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/ui/menubar";
 import { BoldIcon, FileIcon, FileJsonIcon, FilePenIcon, FilePlusIcon, FileTextIcon, GlobeIcon, ItalicIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, StrikethroughIcon, TableIcon, TextIcon, TrashIcon, UnderlineIcon, Undo2Icon } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
@@ -221,6 +221,7 @@ const NavBar = () => {
 				</div>
 			</div>
 			<div className='flex gap-3 items-center pl-6'>
+				<Avatars />
 				<OrganizationSwitcher
 					afterCreateOrganizationUrl={"/"}
 					afterLeaveOrganizationUrl={"/"}
