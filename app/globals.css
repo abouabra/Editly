@@ -88,18 +88,17 @@ body {
 }
 
 .tiptap {
-
 	/* Image-specific styling */
 	img {
 		display: block;
 		height: auto;
 		margin: 1.5rem 0;
 		max-width: 100%;
-	
+
 		&.ProseMirror-selectednode {
-		  outline: 3px solid var(--primary);
+			outline: 3px solid var(--primary);
 		}
-	  }
+	}
 
 	/* Table-specific styling */
 	table {
@@ -124,7 +123,7 @@ body {
 		}
 
 		th {
-			background-color: #C7C7C7;
+			background-color: #c7c7c7;
 			font-weight: bold;
 			text-align: left;
 		}
@@ -198,7 +197,6 @@ body {
 		margin-top: 1rem;
 		margin-bottom: 0.25rem;
 	}
-	
 
 	h1 {
 		font-size: 2.25rem;
@@ -281,14 +279,35 @@ body {
 	a {
 		@apply text-blue-600;
 		cursor: pointer;
-	
+
 		&:hover {
-		  @apply underline;
+			@apply underline;
 		}
-	  }
+	}
 }
 
-/* 
-.ProseMirror-selectednode div div {
-	background-color: red !important;
-} */
+/* For mobile */
+
+.floating-threads {
+	display: none;
+}
+
+/* For desktop */
+
+.anchored-threads {
+	display: block;
+	max-width: 300px;
+	width: 100%;
+	position: absolute;
+	right: 12px;
+}
+
+@media (max-width: 640px) {
+	.floating-threads {
+		display: block;
+	}
+
+	.anchored-threads {
+		display: none;
+	}
+}
