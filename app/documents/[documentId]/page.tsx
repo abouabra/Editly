@@ -1,29 +1,36 @@
 import React from "react";
-import Editor from "./editor";
-import ToolBar from "./toolbar";
-import NavBar from "./navbar";
-import { Room } from "./room";
+import { Id } from "@/convex/_generated/dataModel";
+import { auth } from "@clerk/nextjs/server";
+import Document from "./document";
+import { preloadQuery } from "convex/nextjs";
+import { api } from "@/convex/_generated/api";
 
 interface DocumentsPageIdProps {
-	params: Promise<{ documentId: string }>;
+	params: Promise<{ documentId: Id<"documents"> }>;
 }
 
-const DocumentsPageId = async ({ params }: DocumentsPageIdProps) => {
+const DocumentIdPage = async ({ params }: DocumentsPageIdProps) => {
 	const { documentId } = await params;
+	const { getToken } = await auth();
+	const token = await getToken({ template: "convex" }) ?? undefined;
+
+	if(!token) {
+		throw new Error("Unauthorized");
+	}
+
+	const preloadedDocument = await preloadQuery(
+		api.documents.getDocumentByID,
+		{ id: documentId },
+		{ token }
+	);
+
+	if(!preloadedDocument) {
+		throw new Error("Document not found");
+	}
 
 	return (
-		<Room>
-			<div className="min-h-screen bg-[#FAFBFD]">
-				<div className="flex flex-col px-4 pt-2 gap-y-2 fixed top-0 left-0 right-0 z-10 bg-[#FAFBFD] print:hidden">
-					<NavBar />
-					<ToolBar />
-				</div>
-				<div className="pt-[114px] print:pt-0">
-					<Editor />
-				</div>
-			</div>
-		</Room>
+		<Document preloadedDocument={preloadedDocument} />
 	);
 };
 
-export default DocumentsPageId;
+export default DocumentIdPage;
