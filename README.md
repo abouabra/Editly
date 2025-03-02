@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Editly
+A collaborative document editing platform built to understand the inner workings of modern document editing applications.
 
-## Getting Started
+<video src="https://github.com/abouabra/projects-demo-videos/raw/refs/heads/master/editly/editly.mp4" autoplay loop muted playsinline width="600"></video>
 
-First, run the development server:
+## 📝 Overview
+Editly is my experimental project to recreate the core functionality of collaborative document editing platforms. I built this to deepen my understanding of real-time web applications and to explore the technical challenges behind apps like Google Docs. This project represents my journey into complex frontend and backend integrations while solving real-world synchronization problems.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Key Features
+- **Real-time Collaboration**: Multiple users can edit documents simultaneously
+- **Rich Text Editing**: Support for headings, lists, tables, and image uploads
+- **Commenting System**: Tag users and discuss specific parts of documents
+- **Document Templates**: Choose from various templates for quick document creation
+- **Export Options**: Export documents in multiple formats (HTML, PDF)
+- **User Management**: Support for personal and organizational accounts
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Technical Stack
+- **Next.js 15**: React framework for server-rendered applications
+- **React 19**: UI library for building component-based interfaces
+- **Convex**: Real-time database and backend
+- **Liveblocks**: Real-time collaboration infrastructure
+- **Clerk**: User authentication and management
+- **Tiptap**: Rich text editor framework
+- **shadcn/ui**: Beautifully designed components built with Radix UI and Tailwind CSS
+- **lucide-react**: Beautiful & consistent icon toolkit for React applications
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💡 Implementation Details
 
-## Learn More
+### 📄 Document Editing
+The project uses Tiptap to provide a rich text editing experience with support for:
+- Text formatting (bold, italic, underline)
+- Headings and paragraphs
+- Lists (ordered and unordered)
+- Tables
+- Image uploads
+- Code blocks
 
-To learn more about Next.js, take a look at the following resources:
+### 🔄 Real-time Collaboration
+Powered by Liveblocks and Convex, the application demonstrates:
+- Simultaneous editing by multiple users
+- Presence indicators showing who is currently viewing/editing
+- Conflict resolution for concurrent edits
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 👥 User Management
+Clerk integration provides:
+- User authentication (email, social logins)
+- Personal and organizational accounts
+- User roles and permissions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎓 My Learning Journey
+Through building Editly, I gained valuable insights into:
+- How to implement and manage real-time data synchronization between multiple users
+- Techniques for creating robust rich text editors with complex formatting options
+- Practical approaches to user authentication and permission management in collaborative apps
+- Methods for optimizing performance when handling concurrent document edits
+- Strategies for structuring a complex frontend application with state management across multiple components
+- Solving the technical challenges of conflict resolution when multiple users edit the same document
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project has significantly improved my understanding of full-stack development and real-time web applications, providing me with hands-on experience in building complex, interactive systems.
