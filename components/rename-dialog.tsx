@@ -34,7 +34,7 @@ const RenameDialog = ({ documentId, initialTitle, children }: RenameDialogProps)
     setIsUpdating(true);
 
     update({ id: documentId, title: title.trim() || "Untitled Document" })
-      .catch((error) => { toast.error("Something went wrong."); })
+      .catch(() => { toast.error("Something went wrong."); })
       .then(() => { toast.success("Document renamed."); })
       .finally(() => {
         setIsUpdating(false);

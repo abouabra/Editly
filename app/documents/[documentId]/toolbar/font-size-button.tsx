@@ -18,8 +18,8 @@ const FontSizeButton = () => {
 		for (let level = 0; level < headings.length; level++) {
 			if (editor?.isActive("heading", { level })) {
 				
-				let valueInRem =  headings[level].fontSize.replace("rem", "");
-				let valueInPx = parseFloat(valueInRem) * 16;
+				const valueInRem =  headings[level].fontSize.replace("rem", "");
+				const valueInPx = parseFloat(valueInRem) * 16;
 				return valueInPx.toString();
 			}
 		}

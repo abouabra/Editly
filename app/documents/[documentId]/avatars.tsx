@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import {  useOthers, useSelf } from "@liveblocks/react/suspense";
 import { ClientSideSuspense } from "@liveblocks/react";
 import { Separator } from "@/components/ui/separator";

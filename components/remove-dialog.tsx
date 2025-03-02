@@ -47,7 +47,7 @@ const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
               e.stopPropagation();
               setIsRemoving(true);
               remove({ id: documentId })
-              .catch((error) => { toast.error("Something went wrong."); })
+              .catch(() => { toast.error("Something went wrong."); })
               .then(() => { toast.success("Document deleted."); })
               .finally(() => setIsRemoving(false));
             }}

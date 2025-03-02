@@ -25,7 +25,6 @@ import {
 } from "lucide-react";
 
 import RenameDialog from "@/components/rename-dialog";
-import RemoveDialog from "@/components/remove-dialog";
 
 import {
 	Menubar,

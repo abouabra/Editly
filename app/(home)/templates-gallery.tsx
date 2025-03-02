@@ -22,7 +22,7 @@ const TemplatesGallery = () => {
 				toast.success("Document created.");
 				router.push(`/documents/${documentId}`);
 			})
-			.catch((error) => { toast.error("Something went wrong."); })
+			.catch(() => { toast.error("Something went wrong."); })
 			.finally(() => {
 				setIsCreating(false);
 			});
@@ -41,7 +41,6 @@ const TemplatesGallery = () => {
 								<div className={cn("aspect-[3/4] flex flex-col gap-y-2.5", isCreating && "pointer-events-none opacity-50")}>
 									<button
 										disabled={isCreating}
-										// TODO: Proper Initial Content
 										onClick={() => onTemplateClick(template.label, template.initialContent)}
 										style={{
 											backgroundImage: `url(${template.imageUrl})`,

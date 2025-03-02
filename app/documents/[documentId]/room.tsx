@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, use, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import {
 	LiveblocksProvider,
 	RoomProvider,
@@ -18,6 +18,7 @@ type User = {
 	id: string;
 	name: string;
 	avatar: string;
+	color: string;
 };
 
 export function Room({ children }: { children: ReactNode }) {
@@ -28,7 +29,8 @@ export function Room({ children }: { children: ReactNode }) {
 		try {
 			const list = await getUsers();
 			setUsers(list);
-		} catch (error) {
+		} catch {
+
 			toast.error("Failed to fetch users");
 		}
 	}

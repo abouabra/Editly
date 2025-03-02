@@ -1,7 +1,7 @@
 'use client';
 
 import { useEditorStore } from '@/app/store/use-editor-store';
-import { DropdownMenu, DropdownMenuContent,DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { HighlighterIcon } from 'lucide-react';
 import { type ColorResult, SketchPicker } from 'react-color';
 

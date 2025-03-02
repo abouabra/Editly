@@ -5,7 +5,6 @@ import { DropdownMenu, DropdownMenuContent,DropdownMenuItem, DropdownMenuTrigger
 import { cn } from "@/lib/utils";
 import { type Level } from "@tiptap/extension-heading";
 import { ChevronDownIcon } from "lucide-react";
-import { useEffect } from "react";
 
 export const headings = [
 	{

@@ -2,7 +2,6 @@
 
 import { useEditorStore } from "@/app/store/use-editor-store";
 import { useState } from "react";
-import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle} from '@/components/ui/dialog';
 import { ImageIcon, SearchIcon, UploadIcon } from "lucide-react";
