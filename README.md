@@ -1,10 +1,8 @@
 # Editly
 A collaborative document editing platform built to understand the inner workings of modern document editing applications.
 
-<iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/9kG_6YrhoGM?autoplay=1&mute=1" 
-        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-</iframe>
+[![Video Title](https://i3.ytimg.com/vi/9kG_6YrhoGM/maxresdefault.jpg)](https://www.youtube.com/watch?v=9kG_6YrhoGM)
+
 
 ## 📝 Overview
 Editly is my experimental project to recreate the core functionality of collaborative document editing platforms. I built this to deepen my understanding of real-time web applications and to explore the technical challenges behind apps like Google Docs. This project represents my journey into complex frontend and backend integrations while solving real-world synchronization problems.
